@@ -24,21 +24,49 @@ const NAV_ITEMS = [
 export const NavBar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  //   const navLink = document.querySelectorAll('.index-nav-inner a');
+
+  // window.addEventListener('scroll', () => {
+  //   let spot = window.pageYOffset
+
+  //   navLink.forEach(link => {
+  //     let section = document.querySelector(link.hash);
+
+  //     if (
+  //       section.offsetTop <= spot &&
+  //       section.offsetTop + section.offsetHeight > spot
+  //     ) {
+  //       link.classList.add('active')
+  //     } else {
+  //       link.classList.remove('active')
+  //     }
+  //   })
+  // });
 
   return (
-    <nav className="fixed top-0 z-10 flex items-center justify-between w-full py-4 px-4">
+    <header className="fixed top-0 z-10 flex items-center justify-between w-full py-4 px-4 sm:bg-white xs:bg-opacity-90">
       <a href="#home">
         <span className="sr-only">Go Home</span>
         <Logo className="size-8" />
       </a>
 
+      {/* above mobile */}
+      <nav className="space-x-4 hidden sm:block">
+        {NAV_ITEMS.map((item) => (
+          <a
+            href={item.href}
+            key={item.href}
+            className="uppercase pb-px border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      {/* Mobile */}
       <Drawer.Root open={isMenuOpen} onOpenChange={setIsMenuOpen}>
         <Drawer.Trigger
-          className="relative size-8 focus:outline-none rounded-md xs:hidden"
-          onClick={toggleMenu}
+          className="relative size-8 focus:outline-none rounded-md sm:hidden"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
           <div className="absolute w-6 -translate-x-2 -translate-y-px">
@@ -70,6 +98,8 @@ export const NavBar: FC = () => {
         </Drawer.Trigger>
 
         <Drawer.Portal>
+          {/* TODO FORGOT THE OVERLAY */}
+
           <Drawer.Content className="z-50 fixed bottom-0 left-0 right-0 flex max-h-[95dvh] flex-col rounded-t-lg px-4 pt-4 bg-white pb-4">
             <Drawer.Handle className="mb-4" />
 
@@ -90,30 +120,7 @@ export const NavBar: FC = () => {
           </Drawer.Content>
         </Drawer.Portal>
       </Drawer.Root>
-
-      {/* icon */}
-
-      {/* <Fade top cascade delay={3500}> */}
-      {/* <a
-          href="#projects"
-          className="ml-[3%] uppercase tracking-[2px] pb-[1px] border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in"
-        >
-          projects
-        </a>
-
-        <a
-          href="#about"
-          className="ml-[3%] uppercase tracking-[2px] pb-[1px] border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in"
-        >
-          about
-        </a>
-
-        <a href="#contact" className="ml-[3%] uppercase tracking-[2px]">
-          <span>contact</span>
-        </a> */}
-      {/* </Fade> */}
-    </nav>
-    // </Fade>
+    </header>
   );
 };
 
