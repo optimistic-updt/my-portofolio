@@ -3,8 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* delete this eventually */
+  --foreground: #171717; /* delete this eventually */
+  --gradient: linear-gradient(#ff69f0, #bb4dff);
+  --primary: #ff69f0;
+  --secondary: #bb4dff;
+  --yellow: #ffc107;
+  --text: #363940;
+  --muted: #c4c4c4;
+  --br: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,7 +22,35 @@
 }
 
 body {
-  color: var(--foreground);
+  color: #363940;
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    "rubik",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 7px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c86fff;
 }
