@@ -20,15 +20,19 @@
 .hero-gradient-text {
   --_space: ;
 
-  --_color-1-from: var(--primary);
-  --_color-2-from: var(--secondary);
+  /* --_color-1-from: var(--primary);
+  --_color-2-from: var(--secondary); */
+  /*  */
+  --_color-1-from: #ff8ef4;
+  --_color-2-from: #ab46ea;
+  /*  */
   --_color-1-to: var(--secondary);
-  --_color-2-to: var(--primary);
-
+  --_color-2-to: #f0b607;
+  /*  */
   --color-1: var(--_color-1-from);
   --color-2: var(--_color-2-from);
 
-  animation: color-change 1.2s linear infinite alternate;
+  animation: color-change 2.2s linear infinite alternate;
 
   background: linear-gradient(
     to right var(--_space),
