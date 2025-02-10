@@ -41,6 +41,13 @@ export default {
         "in-out-circ": "cubic-bezier(.785, .135, .15, .86)",
       },
     },
+    keyframes: {
+      levitate: {
+        "0%, 100%": { top: "0px" },
+        "25%": { top: "-15px" },
+        "75%": { top: "15px" },
+      },
+    },
   },
   plugins: [],
 } satisfies Config;

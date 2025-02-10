@@ -1,0 +1,50 @@
+@property --color-1 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #000;
+}
+
+@property --color-2 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #000;
+}
+
+@keyframes color-change {
+  to {
+    --color-1: var(--_color-1-to);
+    --color-2: var(--_color-2-to);
+  }
+}
+
+.hero-gradient-text {
+  --_space: ;
+
+  --_color-1-from: var(--primary);
+  --_color-2-from: var(--secondary);
+  --_color-1-to: var(--secondary);
+  --_color-2-to: var(--primary);
+
+  --color-1: var(--_color-1-from);
+  --color-2: var(--_color-2-from);
+
+  animation: color-change 1.2s linear infinite alternate;
+
+  background: linear-gradient(
+    to right var(--_space),
+    var(--color-1),
+    var(--color-2)
+  );
+
+  /* old browser support */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* modern browser version */
+  background-clip: text;
+  color: transparent;
+
+  @supports (background: linear-gradient(in oklch, #fff, #fff)) {
+    --_space: in oklch;
+  }
+}
