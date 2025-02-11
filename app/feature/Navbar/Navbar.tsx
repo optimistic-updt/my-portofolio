@@ -44,7 +44,7 @@ export const NavBar: FC = () => {
   // });
 
   return (
-    <header className="fixed top-0 z-10 flex items-center justify-between w-full py-4 px-4 sm:bg-white xs:bg-opacity-90">
+    <header className="fixed top-0 z-10 flex items-center justify-between w-full py-4 px-6 sm:bg-white xs:bg-opacity-90">
       <a href="#home">
         <span className="sr-only">Go Home</span>
         <Logo className="size-8" />
