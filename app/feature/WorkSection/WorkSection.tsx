@@ -1,38 +1,11 @@
+import { ME } from "@/app/me";
 import Image from "next/image";
 import { FC } from "react";
-
-const PROJECTS = [
-  {
-    title: "Tapestry.ai",
-    description:
-      "Real-Time Data Infrastructure trusted by Fortune 500 companies",
-    image: "/images/tapestry2.png",
-    link: "https://www.tapestry.ai/",
-  },
-  {
-    title: "Tiny Tripper",
-    description: "Consumer website/app recommending activities for your kids",
-    image: "/images/tiny-tripper.png",
-    link: "https://tiny-tripper.vercel.app/",
-  },
-  {
-    title: "Sm@rt Studio",
-    description: "Digital Agency leveraging AI to help customers",
-    image: "/images/smartstudio.png",
-    link: "https://www.google.com",
-  },
-  {
-    title: "My Portfolio",
-    description: "What you see is what you get 😘",
-    image: "/images/07_KK_Portraits_10_crop.jpg",
-    link: "https://www.kevgarcia.fyi",
-  },
-];
 
 export const WorkSection: FC = () => {
   // TODO make animation faster on exit
   return (
-    <section id="work" className="px-6">
+    <section id="work" className="px-6 sm:px-0 max-w-5xl mx-auto">
       <h3 className="text-3xl group relative inline-block overflow-x-hidden">
         <svg
           width="75"
@@ -58,7 +31,7 @@ export const WorkSection: FC = () => {
       </h3>
 
       <ul className="space-y-6 mt-3 md:hidden">
-        {PROJECTS.map((project) => (
+        {ME.projects.featured.map((project) => (
           <li key={project.title} className="rounded-md">
             <a
               href={project.link}
@@ -75,7 +48,7 @@ export const WorkSection: FC = () => {
       </ul>
 
       <ul className="relative mt-3 justify-between items-center h-64 lg:h-72 xl:h-80 gap-6 xl:gap-9 hidden md:flex">
-        {PROJECTS.map((project) => (
+        {ME.projects.featured.map((project) => (
           <li
             key={project.title}
             className="cursor-alias group relative transition-all duration-500 ease-in-out h-full rounded-lg overflow-hidden flex-[1] hover:flex-[3] text-2xl text-white"
@@ -94,7 +67,7 @@ export const WorkSection: FC = () => {
               {project.title}
             </h4>
 
-            <p className="absolute flex-1 text-left bottom-8 inset-x-6 group-hover:opacity-100 transition-opacity duration-500 delay-500 flex items-center justify-between opacity-0">
+            <p className="absolute text-left bottom-8 inset-x-6 group-hover:opacity-100 transition-opacity duration-500 group-hover:delay-[450ms] opacity-0 ease-in-out line-clamp-2">
               {project.description}
             </p>
           </li>

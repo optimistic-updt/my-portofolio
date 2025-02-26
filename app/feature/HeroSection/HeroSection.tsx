@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 // import { Chevron } from "./Chevron";
 import styles from "./HeroSection.module.css";
+import { ME } from "@/app/me";
 
 export const HeroSection: FC = () => {
   return (
     <section
       id="home"
-      className="h-screen bg-secondary bg-cover bg-center relative bg-[url('/images/07_KK_Portraits_10_crop.jpg')] px-6"
+      className="h-screen bg-secondary bg-cover bg-center relative bg-[url('/images/me_landing.jpg')] px-6"
       style={{ backgroundPositionX: "63%" }} //good for mobile
     >
       <div className="absolute mx-auto text-5xl lg:text-7xl top-1/4 md:left-[8.3%] lg:top-1/2 lg:left-1/4 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
@@ -16,7 +17,7 @@ export const HeroSection: FC = () => {
             I&apos;m Kevin
           </span>
         </h1>
-        <h2 className="text-2xl leading-loose">Software Developer</h2>
+        <h2 className="text-2xl leading-loose">{ME.title}</h2>
       </div>
 
       {/* TODO come back to this */}

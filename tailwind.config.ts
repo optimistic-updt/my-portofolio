@@ -49,5 +49,10 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // @ts-expect-error - has any type
+    ({ addVariant }) => {
+      addVariant("starting", "@starting-style");
+    },
+  ],
 } satisfies Config;

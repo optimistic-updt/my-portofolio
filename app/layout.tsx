@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Raleway, Rubik } from "next/font/google";
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
+
 const raleway = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://kevgarcia.fyi"),
   openGraph: {
     title: "Kevin Garcia-Fernandez, Software Developer",
-    description: "My portfolio website",
+    description: "My portfolio",
     url: "https://kevgarcia.fyi",
     images: ["/images/og-shot-1.png"],
     type: "website",
@@ -63,6 +65,7 @@ export default function RootLayout({
 
       <body className={`${raleway.variable} ${rubik.variable} antialiased`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
