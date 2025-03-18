@@ -7,7 +7,7 @@ export const ME = {
         title: "Tapestry.ai",
         description:
           "Real-Time Data Infrastructure trusted by Fortune 500 companies",
-        image: "/images/tapestry2.png",
+        image: "/images/tapestry@2x.png",
         link: "https://www.tapestry.ai/",
       },
       {
@@ -24,14 +24,6 @@ export const ME = {
         link: "https://www.google.com",
       },
       {
-        title: "My Portfolio",
-        description: "What you see is what you get 😘",
-        image: "/images/me_landing.jpg",
-        link: "https://www.kevgarcia.fyi",
-      },
-    ],
-    others: [
-      {
         title: "Tic-Tac-Doh!",
         description:
           "Classic Tic-Tac-Toe game with simple AI. First project, still stands",
@@ -39,6 +31,7 @@ export const ME = {
         link: "https://optimistic-updt.github.io/Tic-Tac-Doh/",
       },
     ],
+    others: [],
   },
   socialLinks: [
     {

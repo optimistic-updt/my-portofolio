@@ -44,7 +44,8 @@ export const NavBar: FC = () => {
   // });
 
   return (
-    <header className="fixed top-0 z-10 w-full py-4 px-6 sm:bg-white xs:bg-opacity-90 lg:px-24">
+    // TODO make appearing bg
+    <header className="fixed top-0 z-10 w-full py-4 px-6 bg-white xs:bg-opacity-90 lg:px-24">
       <div className="max-w-5xl flex items-center justify-between mx-auto">
         <a href="#home">
           <span className="sr-only">Go Home</span>
@@ -72,7 +73,7 @@ export const NavBar: FC = () => {
           >
             <div className="absolute w-6 -translate-x-2 -translate-y-px">
               <span
-                className={`absolute h-0.5 w-full bg-white transition-all duration-200 ${
+                className={`absolute h-0.5 w-full bg-black transition-all duration-200 ${
                   isMenuOpen ? "rotate-45 translate-y-0" : "translate-y-[-8px]"
                 }`}
                 style={{
@@ -80,7 +81,7 @@ export const NavBar: FC = () => {
                 }}
               />
               <span
-                className={`absolute h-0.5 w-full bg-white transition-all duration-200 ${
+                className={`absolute h-0.5 w-full bg-black transition-all duration-200 ${
                   isMenuOpen ? "opacity-0" : "translate-y-0"
                 }`}
                 style={{
@@ -88,7 +89,7 @@ export const NavBar: FC = () => {
                 }}
               />
               <span
-                className={`absolute h-0.5 w-full bg-white transition-all duration-200 ${
+                className={`absolute h-0.5 w-full bg-black transition-all duration-200 ${
                   isMenuOpen ? "-rotate-45 translate-y-0" : "translate-y-[8px]"
                 }`}
                 style={{

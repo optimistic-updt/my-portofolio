@@ -1,5 +1,6 @@
 import { ME } from "@/app/me";
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 export const WorkSection: FC = () => {
@@ -30,11 +31,13 @@ export const WorkSection: FC = () => {
         </span>
       </h3>
 
+      {/* mobile */}
       <ul className="space-y-6 mt-3 md:hidden">
         {ME.projects.featured.map((project) => (
           <li key={project.title} className="rounded-md">
-            <a
+            <Link
               href={project.link}
+              target="_blank"
               className={`p-4 relative h-44 lg:h-[400px] bg-center bg-cover bg-black w-full inline-flex rounded-md flex-col justify-end text-white`}
               style={{ backgroundImage: `url(${project.image})` }}
             >
@@ -42,14 +45,17 @@ export const WorkSection: FC = () => {
 
               <h4 className="text-2xl">{project.title}</h4>
               <p className="text-sm tracking-wide">{project.description}</p>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
 
+      {/* desktop */}
       <ul className="relative mt-3 justify-between items-center h-64 lg:h-72 xl:h-80 gap-6 xl:gap-9 hidden md:flex">
         {ME.projects.featured.map((project) => (
-          <li
+          <Link
+            href={project.link}
+            target="_blank"
             key={project.title}
             className="cursor-alias group relative transition-all duration-500 ease-in-out h-full rounded-lg overflow-hidden flex-[1] hover:flex-[3] text-2xl text-white"
           >
@@ -70,7 +76,7 @@ export const WorkSection: FC = () => {
             <p className="absolute text-left bottom-8 inset-x-6 group-hover:opacity-100 transition-opacity duration-500 group-hover:delay-[450ms] opacity-0 ease-in-out line-clamp-2">
               {project.description}
             </p>
-          </li>
+          </Link>
         ))}
       </ul>
     </section>

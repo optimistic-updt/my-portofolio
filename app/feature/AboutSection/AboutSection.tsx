@@ -8,7 +8,17 @@ export const AboutSection: FC = () => {
       </h3>
       <h4 className="text-2xl">Hello, I&apos;m Kevin Garcia-Fernandez</h4>
       <p>
-        I try to alleviate life&apos;s challenges through innovative technology.
+        From sound waves to code — I'm a sound engineer turned software
+        developer who knows how to create experiences that resonate. After a
+        decade of crafting unforgettable moments for audiences around the world,
+        I jumped into software to build things with staying power. My background
+        gives me a unique mix of creativity and technical know-how that I've
+        been putting to work as a front-end dev for the past 5 years. I'm all
+        about creating digital products that actually help people. Quick,
+        tangible value is my thing—whether it's making data more accessible or
+        building interfaces that just make sense. I bring energy and enthusiasm
+        to every project and love collaborating with others to make cool shit
+        happen. Let's build something awesome together.
       </p>
 
       <div className="space-y-6 mt-6">
