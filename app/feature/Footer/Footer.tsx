@@ -4,7 +4,7 @@ import React, { FC } from "react";
 const Footer: FC = () => {
   return (
     <footer className="py-3 text-sm text-muted bg-white px-6 mx-auto lg:px-32">
-      <div className="max-w-5xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between ">
+      <div className="max-w-5xl gap-3 mx-auto flex flex-col-reverse md:flex-row items-center justify-between ">
         <div className="">
           <p>
             Built by me on NextJS. Design by{" "}
@@ -19,7 +19,7 @@ const Footer: FC = () => {
           <p>&copy; Kevin Garcia-Fernandez 2025. All rights reserved.</p>
         </div>
 
-        <nav className="text-primary space-x-3 flex items-center">
+        <nav className="text-primary space-x-6 flex items-center">
           {ME.socialLinks.map(({ name, url, icon }) => (
             <a
               key={name}
