@@ -7,7 +7,8 @@ export const HeroSection: FC = () => {
   return (
     <section
       id="home"
-      className="h-screen bg-secondary bg-cover bg-center relative bg-[url('/images/me_landing.jpg')] px-6"
+      // * #DADADF is the color of the background of the current hero image
+      className="h-screen bg-[#DADADF] bg-cover bg-center relative bg-[url('/images/me_landing.jpg')] px-6"
       style={{ backgroundPositionX: "63%" }} //good for mobile
     >
       <div className="absolute mx-auto text-5xl lg:text-7xl top-1/4 md:left-[8.3%] lg:top-1/2 lg:left-1/4 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">

@@ -6,8 +6,8 @@ import { FC } from "react";
 export const WorkSection: FC = () => {
   // TODO make animation faster on exit
   return (
-    <section id="work" className="px-6 sm:px-0 max-w-5xl mx-auto">
-      <h3 className="text-3xl group relative inline-block overflow-x-hidden">
+    <section id="projects" className="px-6 lg:px-0 max-w-5xl mx-auto">
+      <h3 className="text-3xl group relative inline-block overflow-x-hidden mb-3 lg:mb-6">
         <svg
           width="75"
           height="6"
@@ -32,7 +32,7 @@ export const WorkSection: FC = () => {
       </h3>
 
       {/* mobile */}
-      <ul className="space-y-6 mt-3 md:hidden">
+      <ul className="space-y-6 md:hidden">
         {ME.projects.featured.map((project) => (
           <li key={project.title} className="rounded-md">
             <Link
@@ -41,17 +41,19 @@ export const WorkSection: FC = () => {
               className={`p-4 relative h-44 lg:h-[400px] bg-center bg-cover bg-black w-full inline-flex rounded-md flex-col justify-end text-white`}
               style={{ backgroundImage: `url(${project.image})` }}
             >
-              {/* <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-transparent to-transparent" /> */}
+              <div className="absolute inset-0 bg-black/60 rounded-md" />
 
-              <h4 className="text-2xl">{project.title}</h4>
-              <p className="text-sm tracking-wide">{project.description}</p>
+              <div className="absolute inset-0 flex flex-col justify-end p-4 rounded-md">
+                <h4 className="text-2xl">{project.title}</h4>
+                <p className="text-sm tracking-wide">{project.description}</p>
+              </div>
             </Link>
           </li>
         ))}
       </ul>
 
       {/* desktop */}
-      <ul className="relative mt-3 justify-between items-center h-64 lg:h-72 xl:h-80 gap-6 xl:gap-9 hidden md:flex">
+      <ul className="relative justify-between items-center h-64 lg:h-72 xl:h-80 gap-6 xl:gap-9 hidden md:flex">
         {ME.projects.featured.map((project) => (
           <Link
             href={project.link}

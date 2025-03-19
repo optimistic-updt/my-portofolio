@@ -4,10 +4,10 @@ import React, { FC } from "react";
 const Footer: FC = () => {
   return (
     <footer className="py-3 text-sm text-muted bg-white px-6 mx-auto lg:px-32">
-      <div className="max-w-5xl gap-3 mx-auto flex flex-col-reverse md:flex-row items-center justify-between ">
-        <div className="">
+      <div className="max-w-5xl gap-6 mx-auto flex flex-col-reverse sm:flex-row items-center justify-between">
+        <div className="w-full sm:flex-grow">
           <p>
-            Built by me on NextJS. Design by{" "}
+            Built on NextJS. Design by{" "}
             <a
               href="https://www.kiranraszka.com/"
               target="blank"
@@ -19,14 +19,14 @@ const Footer: FC = () => {
           <p>&copy; Kevin Garcia-Fernandez 2025. All rights reserved.</p>
         </div>
 
-        <nav className="text-primary space-x-6 flex items-center">
+        <nav className="text-primary flex items-center justify-around sm:justify-end w-full sm:w-auto sm:gap-3">
           {ME.socialLinks.map(({ name, url, icon }) => (
             <a
               key={name}
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary size-9"
+              className="text-primary size-8"
             >
               <span className="sr-only">Go to {name}</span>
               {icon}

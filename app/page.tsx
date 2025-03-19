@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="bg-white space-y-12">
+      <main className="bg-white space-y-12 lg:space-y-24">
         <HeroSection />
         <WorkSection />
         <AboutSection />
