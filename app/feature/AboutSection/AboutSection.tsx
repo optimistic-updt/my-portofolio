@@ -29,7 +29,7 @@ export const AboutSection: FC = () => {
             How we got here
           </h4>
           <p className="lg:col-span-8">
-            From sound waves to code — I'm a sound engineer turned software
+            From sound waves to code — I&apos;m a sound engineer turned software
             developer who loves creating experiences that resonate. 🔊 <br />
             <br className="hidden sm:block" />
             After a decade of crafting unforgettable moments for audiences
@@ -37,16 +37,17 @@ export const AboutSection: FC = () => {
             staying power. <br />
             <br className="hidden sm:block" />
             My background gives me a unique mix of creativity and technical
-            know-how that I've been putting to work as a front-end dev for the
-            past 5 years. <br />
-            I'm all about creating digital products that actually help people.
+            know-how that I&apos;ve been putting to work as a front-end dev for
+            the past 5 years. <br />
+            I&apos;m all about creating digital products that actually help
+            people.
             <br />
-            Whether it's making data more accessible or building interfaces that
-            just make sense, I bring energy and enthusiasm to every project and
-            love collaborating with others to make cool shit happen. <br />
+            Whether it&apos;s making data more accessible or building interfaces
+            that just make sense, I bring energy and enthusiasm to every project
+            and love collaborating with others to make cool shit happen. <br />
             <br className="hidden sm:block" />
             {/* Make "together" a rainbow gradient Or some shining test */}
-            Let's build something awesome together. 🚀
+            Let&apos;s build something awesome together. 🚀
           </p>
         </section>
         {/* <div>
