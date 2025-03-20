@@ -1,4 +1,5 @@
 import { AboutSection } from "./feature/AboutSection/AboutSection";
+import { ContactSection } from "./feature/ContactSection/ContactSection";
 import Footer from "./feature/Footer/Footer";
 import { HeroSection } from "./feature/HeroSection/HeroSection";
 import NavBar from "./feature/Navbar/Navbar";
@@ -8,10 +9,11 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="bg-white space-y-12 lg:space-y-24">
+      <main className="bg-white space-y-12 lg:space-y-32">
         <HeroSection />
         <WorkSection />
         <AboutSection />
+        <ContactSection />
         <Footer />
       </main>
     </>

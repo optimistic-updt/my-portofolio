@@ -45,7 +45,7 @@ export const NavBar: FC = () => {
 
   return (
     // TODO make appearing bg
-    <header className="fixed top-0 z-10 w-full py-4 px-6 bg-white xs:bg-opacity-90 lg:px-24">
+    <header className="fixed top-0 z-10 w-full py-4 px-6 bg-white xs:bg-opacity-90">
       <div className="max-w-5xl flex items-center justify-between mx-auto">
         <a href="#home">
           <span className="sr-only">Go Home</span>

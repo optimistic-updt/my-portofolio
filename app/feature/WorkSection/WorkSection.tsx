@@ -6,7 +6,7 @@ import { FC } from "react";
 export const WorkSection: FC = () => {
   // TODO make animation faster on exit
   return (
-    <section id="projects" className="px-6 lg:px-0 max-w-5xl mx-auto">
+    <section id="projects" className="px-6 xl:px-0 max-w-5xl mx-auto">
       <h3 className="text-3xl group relative inline-block overflow-x-hidden mb-3 lg:mb-6">
         <svg
           width="75"

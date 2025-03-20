@@ -12,13 +12,15 @@ export const HeroSection: FC = () => {
       style={{ backgroundPositionX: "63%" }} //good for mobile
     >
       <div className="absolute mx-auto text-5xl lg:text-7xl top-1/4 md:left-[8.3%] lg:top-1/2 lg:left-1/4 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
-        <h1 className="lg:leading-tight">
+        <h1 className="lg:leading-tight transform starting:translate-y-8 starting:opacity-0 opacity-100 translate-y-0 ease-out duration-500">
           Hey
           <span className={`block ${styles["hero-gradient-text"]}`}>
             I&apos;m Kevin
           </span>
         </h1>
-        <h2 className="text-2xl leading-loose">{ME.title}</h2>
+        <h2 className="text-2xl leading-loose transform starting:translate-y-8 starting:opacity-0 opacity-100 translate-y-0 ease-out duration-500 delay-300">
+          {ME.title}
+        </h2>
       </div>
 
       {/* TODO come back to this */}
