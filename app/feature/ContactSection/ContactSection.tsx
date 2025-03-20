@@ -1,143 +1,143 @@
-import React, { FC } from "react";
+"use client";
 
-const ContactForm = () => {
-  // state = {
-  //   name: "",
-  //   email: "",
-  //   message: "",
-  //   sent: false,
-  //   buttonText: "send message",
-  // };
+import { useForm } from "@tanstack/react-form";
+import React, { FC, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-  // resetForm = () => {
-  //   this.setState({
-  //     name: "",
-  //     email: "",
-  //     message: "",
-  //     buttonText: "message sent",
-  //   });
-  // };
+const BUTTON_COPY = {
+  rest: "send message",
+  sending: "sending...🚀",
+  success: "message sent 🤘",
+  failure: "failed to send 😢",
+} as const;
 
-  // formSubmit = (e) => {
-  //   e.preventDefault();
+type ButtonState = keyof typeof BUTTON_COPY;
 
-  //   this.setState({
-  //     buttonText: "sending...",
-  //   });
+export const ContactSection: FC = () => {
+  const [buttonState, setButtonState] = useState<ButtonState>("rest");
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+    onSubmit: async ({ value }) => {
+      setButtonState("sending");
 
-  //   let data = {
-  //     name: this.state.name,
-  //     email: this.state.email,
-  //     message: this.state.message,
-  //   };
+      console.log(value);
+      let data = value;
 
-  //   axios
-  //     .post("https://morning-dawn-32463.herokuapp.com/sendtome", data)
-  //     .then((res) => {
-  //       this.setState({ sent: true }, this.resetForm());
-  //       console.log("message sent");
-  //     })
-  //     .catch(() => {
-  //       console.log("message not Sent");
-  //       alert("message not sent");
-  //     });
-  // };
+      fetch("https://morning-dawn-32463.herokuapp.com/sendtome", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            setButtonState("failure");
+            console.log("message not Sent");
+            throw new Error("Network response was not ok");
+          }
+
+          setButtonState("success");
+          console.log("message sent");
+        })
+        .catch(() => {
+          setButtonState("failure");
+          console.log("message not Sent");
+        });
+    },
+  });
 
   return (
-    <div className="">
+    <section id="contact" className="px-6 xl:px-0 max-w-5xl mx-auto text-lg">
       <h3 className="text-3xl mb-3 lg:mb-12">Drop me a line</h3>
 
-      <form className="flex flex-col gap-6">
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="w-full flex flex-col gap-6 md:justify-between">
-            <input
+            <form.Field
               name="name"
-              type="text"
-              placeholder="Your Name"
-              className="rounded-md text-base py-4 px-4 bg-gray-100 focus:outline-none border focus:border-primary w-full"
-              // onChange={(e) => this.setState({ name: e.target.value })}
-              // value={name}
-              // disabled
+              children={(field) => (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    className="rounded-md text-base py-4 px-4 bg-gray-100 focus:outline-none border focus:border-primary w-full"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  {/* <FieldInfo field={field} /> */}
+                </>
+              )}
             />
-            <input
+
+            <form.Field
               name="email"
-              type="email"
-              placeholder="Your Email"
-              className="rounded-md text-base py-4 px-4 bg-gray-100 focus:outline-none border focus:border-primary w-full"
-              // onChange={(e) => this.setState({ email: e.target.value })}
-              // value={email}
-              required
-              // disabled
+              children={(field) => (
+                <>
+                  <input
+                    type="text"
+                    placeholder="mark@hello.com"
+                    className="rounded-md text-base py-4 px-4 bg-gray-100 focus:outline-none border focus:border-primary w-full"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    required
+                  />
+                  {/* <FieldInfo field={field} /> */}
+                </>
+              )}
             />
           </div>
 
-          <textarea
-            placeholder="Your Message..."
+          <form.Field
             name="message"
-            id=""
-            cols={30}
-            rows={5}
-            className="rounded-md text-base py-4 px-4 bg-gray-100 focus:outline-none border focus:border-primary"
-            // onChange={(e) => this.setState({ message: e.target.value })}
-            // value={message}
-            required
-            // disabled
+            children={(field) => (
+              <>
+                <textarea
+                  placeholder="Your Message..."
+                  cols={30}
+                  rows={5}
+                  className="rounded-md text-base py-4 px-4 bg-gray-100 focus:outline-none border focus:border-primary"
+                  required
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                {/* <FieldInfo field={field} /> */}
+              </>
+            )}
           />
         </div>
 
-        <button className="text-white bg-gradient-to-br from-primary to-secondary rounded-md font-semibold px-4 py-2 uppercase tracking-wide ml-auto">
-          <span>send message</span>
-          {/* <span>message sent</span> */}
+        <button
+          type="submit"
+          className="text-white bg-gradient-to-br from-primary to-secondary rounded-md font-semibold px-4 py-2 uppercase tracking-wide ml-auto"
+          disabled={buttonState === "sending"}
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              transition={{ type: "spring", duration: 0.3, bounce: 0 }}
+              initial={{ opacity: 0, y: -25 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 25 }}
+              key={buttonState}
+            >
+              {BUTTON_COPY[buttonState]}
+            </motion.span>
+          </AnimatePresence>
         </button>
       </form>
-    </div>
-  );
-};
-
-export const ContactSection: FC = () => {
-  return (
-    <section id="contact" className="px-6 xl:px-0 max-w-5xl mx-auto text-lg">
-      {/* <h3>Contact</h3> */}
-
-      {/* <p>
-        I love to connect face-to-face around{" "}
-        <span className="connect--how">
-          <em>coffee</em>
-        </span>{" "}
-        and{" "}
-        <span className="connect--how">
-          <em>food</em>
-        </span>
-        .
-      </p>
-      <p className="p--socials">
-        But if that&apos;s not possible, I like to virtually hang on{" "}
-        <a href="https://twitter.com/optimistic_updt" target="blank">
-          Twitter
-        </a>{" "}
-        and{" "}
-        <a href="https://www.linkedin.com/in/kevgarciaf/" target="blank">
-          Linkedin
-        </a>
-        .
-      </p>
-      <p>
-        For graphical evidence of my life, you can jump on{" "}
-        <a href="https://www.instagram.com/optimistic_update/" target="blank">
-          Instagram
-        </a>
-        .
-      </p>
-
-      <a
-        href="/images/kevin-gf-resume-2022.pdf"
-        target="blank"
-        className="button resume-button"
-      >
-        <span className="button-text">download resume</span>
-      </a> */}
-
-      <ContactForm />
     </section>
   );
 };

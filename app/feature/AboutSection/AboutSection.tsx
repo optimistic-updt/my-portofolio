@@ -4,10 +4,6 @@ const FactCard: FC<{
   children: React.ReactNode;
   icon: React.ReactElement;
 }> = ({ children, icon }) => {
-  // let Icon = React.cloneElement(icon, {
-  //   className: "size-8 mb-6",
-  // });
-
   return (
     <li className="bg-gray-100 rounded-md p-6 lg:p-12">
       {React.cloneElement(icon, {
