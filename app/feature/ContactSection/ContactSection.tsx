@@ -24,30 +24,38 @@ export const ContactSection: FC = () => {
     onSubmit: async ({ value }) => {
       setButtonState("sending");
 
-      console.log(value);
-      let data = value;
-
-      fetch("https://morning-dawn-32463.herokuapp.com/sendtome", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => {
-          if (!res.ok) {
-            setButtonState("failure");
-            console.log("message not Sent");
-            throw new Error("Network response was not ok");
-          }
-
-          setButtonState("success");
-          console.log("message sent");
-        })
-        .catch(() => {
-          setButtonState("failure");
-          console.log("message not Sent");
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(value),
         });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setButtonState("failure");
+          // Handle specific error messages
+          if (response.status === 429) {
+            console.error("Rate limit exceeded. Please try again later.");
+          } else if (response.status === 400) {
+            console.error(data.error); // Will show validation errors
+          } else {
+            console.error("Failed to send message:", data.error);
+          }
+          return;
+        }
+
+        setButtonState("success");
+        console.log("Message sent successfully");
+
+        form.reset();
+      } catch (error) {
+        setButtonState("failure");
+        console.error("Network error:", error);
+      }
     },
   });
 

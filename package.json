@@ -16,7 +16,8 @@
     "@tanstack/react-form": "^1.1.2",
     "@vercel/analytics": "^1.5.0",
     "motion": "^12.5.0",
-    "next": "15.1.6",
+    "next": "^15.3.0",
+    "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "vaul": "^1.1.2"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
