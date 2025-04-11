@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const BUTTON_COPY = {
@@ -15,6 +15,9 @@ type ButtonState = keyof typeof BUTTON_COPY;
 
 export const ContactSection: FC = () => {
   const [buttonState, setButtonState] = useState<ButtonState>("rest");
+
+  let timeoutId: NodeJS.Timeout | undefined = undefined;
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -48,16 +51,29 @@ export const ContactSection: FC = () => {
           return;
         }
 
-        setButtonState("success");
         console.log("Message sent successfully");
 
         form.reset();
+
+        setButtonState("success");
+        timeoutId = setTimeout(() => {
+          setButtonState("rest");
+        }, 2000);
       } catch (error) {
         setButtonState("failure");
         console.error("Network error:", error);
       }
     },
   });
+
+  useEffect(
+    function cleanTimeout() {
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    },
+    [timeoutId],
+  );
 
   return (
     <section id="contact" className="px-6 xl:px-0 max-w-5xl mx-auto text-lg">
