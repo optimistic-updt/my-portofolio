@@ -6,8 +6,25 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const BUTTON_COPY = {
   rest: "send message",
-  sending: "sending...🚀",
-  success: "message sent 🤘",
+  sending: (
+    <>
+      sending...
+      <span
+        className="ml-px transform ease-in-out-expo"
+        style={{ animation: "bounce 1.2s infinite" }}
+      >
+        🚀
+      </span>
+    </>
+  ),
+  success: (
+    <>
+      message sent
+      <span className="ml-2 transform" style={{ animation: "rock 0.7s 0.5s" }}>
+        🤘
+      </span>
+    </>
+  ),
   failure: "failed to send 😢",
 } as const;
 
@@ -58,7 +75,7 @@ export const ContactSection: FC = () => {
         setButtonState("success");
         timeoutId = setTimeout(() => {
           setButtonState("rest");
-        }, 2000);
+        }, 4000);
       } catch (error) {
         setButtonState("failure");
         console.error("Network error:", error);
@@ -146,7 +163,7 @@ export const ContactSection: FC = () => {
 
         <button
           type="submit"
-          className="text-white bg-gradient-to-br from-primary to-secondary rounded-md font-semibold px-4 py-2 uppercase tracking-wide ml-auto"
+          className="text-white bg-gradient-to-br from-primary to-secondary rounded-md font-semibold px-4 py-2 uppercase tracking-wide ml-auto overflow-hidden relative w-52 shadow"
           disabled={buttonState === "sending"}
         >
           <AnimatePresence mode="popLayout" initial={false}>
@@ -156,6 +173,7 @@ export const ContactSection: FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 25 }}
               key={buttonState}
+              className="flex w-full justify-center items-center"
             >
               {BUTTON_COPY[buttonState]}
             </motion.span>

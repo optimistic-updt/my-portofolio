@@ -54,3 +54,40 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #c86fff;
 }
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-12%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes rock {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25%,
+  75% {
+    transform: rotate(-25deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes levitate {
+  0%,
+  100% {
+    top: "0px";
+  }
+  25% {
+    top: "-15px";
+  }
+  75% {
+    top: "15px";
+  }
+}

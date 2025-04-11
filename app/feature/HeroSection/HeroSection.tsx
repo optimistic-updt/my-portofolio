@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-// import { Chevron } from "./Chevron";
 import styles from "./HeroSection.module.css";
 import { ME } from "@/app/me";
+// import { Chevron } from "./Chevron";
 
 export const HeroSection: FC = () => {
   return (
@@ -26,7 +26,8 @@ export const HeroSection: FC = () => {
       {/* TODO come back to this */}
       {/* <a
         href="#projects"
-        className="sticky bottom-0 bg-red-500 inline-block size-10 inset-x-0 animate-[levitate_1.5s_linear_infinite]"
+        className="absolute inset-x-0 bottom-0 bg-red-500 inline-block size-10"
+        style={{ animation: "levitate 1.5s linear infinite" }}
       >
         <Chevron />
       </a> */}
