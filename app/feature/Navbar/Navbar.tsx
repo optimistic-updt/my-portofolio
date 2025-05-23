@@ -24,25 +24,6 @@ const NAV_ITEMS = [
 export const NavBar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  //   const navLink = document.querySelectorAll('.index-nav-inner a');
-
-  // window.addEventListener('scroll', () => {
-  //   let spot = window.pageYOffset
-
-  //   navLink.forEach(link => {
-  //     let section = document.querySelector(link.hash);
-
-  //     if (
-  //       section.offsetTop <= spot &&
-  //       section.offsetTop + section.offsetHeight > spot
-  //     ) {
-  //       link.classList.add('active')
-  //     } else {
-  //       link.classList.remove('active')
-  //     }
-  //   })
-  // });
-
   // Draw heart in console
   if (typeof window !== "undefined" && process.env.NODE_ENV !== "development") {
     console.log(
@@ -66,7 +47,7 @@ export const NavBar: FC = () => {
             <a
               href={item.href}
               key={item.href}
-              className="uppercase pb-px border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in"
+              className="uppercase pb-px border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in-out"
             >
               {item.label}
             </a>
