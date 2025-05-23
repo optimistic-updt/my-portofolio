@@ -43,8 +43,16 @@ export const NavBar: FC = () => {
   //   })
   // });
 
+  // Draw heart in console
+  if (typeof window !== "undefined" && process.env.NODE_ENV !== "development") {
+    console.log(
+      "%cWhat are you looking at, you cheeky!",
+      "color:#bb4dff; font-size:16px; font-weight:bold;",
+    );
+    console.log("%c❤️", "font-size:50px; color:#ff69f0;");
+  }
+
   return (
-    // TODO make appearing bg
     <header className="fixed top-0 z-10 w-full py-4 px-6 bg-white xs:bg-opacity-90">
       <div className="max-w-5xl flex items-center justify-between mx-auto">
         <a href="#home">
