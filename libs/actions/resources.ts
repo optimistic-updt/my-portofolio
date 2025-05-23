@@ -2,7 +2,7 @@
 
 import {
   NewResourceParams,
-  insertResourceSchema,
+  createResourceSchema,
   resources as resourcesTable,
 } from "@/libs/db/schema/resources";
 import { db } from "../db";
@@ -11,7 +11,7 @@ import { generateEmbeddings } from "@/libs/ai/embedding";
 
 export const createResource = async (input: NewResourceParams) => {
   try {
-    const { content } = insertResourceSchema.parse(input);
+    const { content } = createResourceSchema.parse(input);
 
     // TODO need to add errors
 
