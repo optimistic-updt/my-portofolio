@@ -3,6 +3,7 @@ import { Raleway, Rubik } from "next/font/google";
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
+import { PostHogProvider } from "./providers";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -48,23 +49,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
-      {/* <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-170097087-1"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "UA-170097087-1");
-    </script> */}
-
       <body className={`${raleway.variable} ${rubik.variable} antialiased`}>
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
         <Analytics />
       </body>
     </html>
