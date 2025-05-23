@@ -24,27 +24,16 @@ const NAV_ITEMS = [
 export const NavBar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  //   const navLink = document.querySelectorAll('.index-nav-inner a');
-
-  // window.addEventListener('scroll', () => {
-  //   let spot = window.pageYOffset
-
-  //   navLink.forEach(link => {
-  //     let section = document.querySelector(link.hash);
-
-  //     if (
-  //       section.offsetTop <= spot &&
-  //       section.offsetTop + section.offsetHeight > spot
-  //     ) {
-  //       link.classList.add('active')
-  //     } else {
-  //       link.classList.remove('active')
-  //     }
-  //   })
-  // });
+  // Draw heart in console
+  if (typeof window !== "undefined" && process.env.NODE_ENV !== "development") {
+    console.log(
+      "%cWhat are you looking at, you cheeky!",
+      "color:#bb4dff; font-size:16px; font-weight:bold;",
+    );
+    console.log("%c❤️", "font-size:50px; color:#ff69f0;");
+  }
 
   return (
-    // TODO make appearing bg
     <header className="fixed top-0 z-10 w-full py-4 px-6 bg-white xs:bg-opacity-90">
       <div className="max-w-5xl flex items-center justify-between mx-auto">
         <a href="#home">
@@ -58,7 +47,7 @@ export const NavBar: FC = () => {
             <a
               href={item.href}
               key={item.href}
-              className="uppercase pb-px border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in"
+              className="uppercase pb-px border-b-2 border-transparent hover:border-black transition-[border] duration-500 ease-in-out"
             >
               {item.label}
             </a>

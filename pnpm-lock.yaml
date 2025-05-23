@@ -46,6 +46,9 @@ importers:
       postgres:
         specifier: ^3.4.5
         version: 3.4.7
+      posthog-js:
+        specifier: ^1.246.0
+        version: 1.246.0
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -2083,6 +2086,12 @@ packages:
         integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==,
       }
 
+  core-js@3.42.0:
+    resolution:
+      {
+        integrity: sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g==,
+      }
+
   cross-spawn@7.0.6:
     resolution:
       {
@@ -2708,6 +2717,12 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  fflate@0.4.8:
+    resolution:
+      {
+        integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==,
+      }
 
   file-entry-cache@8.0.0:
     resolution:
@@ -3848,6 +3863,26 @@ packages:
       }
     engines: { node: ">=12" }
 
+  posthog-js@1.246.0:
+    resolution:
+      {
+        integrity: sha512-5lN/UMqDfxsLeSnT3LsY4P+eD1H+P9qxgN/iUk473LmhCM7IV8TAfdjJj23nnXk/euGNQtvyINYoD2DG+d4eEw==,
+      }
+    peerDependencies:
+      "@rrweb/types": 2.0.0-alpha.17
+      rrweb-snapshot: 2.0.0-alpha.17
+    peerDependenciesMeta:
+      "@rrweb/types":
+        optional: true
+      rrweb-snapshot:
+        optional: true
+
+  preact@10.26.6:
+    resolution:
+      {
+        integrity: sha512-5SRRBinwpwkaD+OqlBDeITlRgvd8I8QlxHJw9AxSdMNV6O+LodN9nUyYGpSF7sadHjs6RzeFShMexC6DbtWr9g==,
+      }
+
   prelude-ls@1.2.1:
     resolution:
       {
@@ -4544,6 +4579,12 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+
+  web-vitals@4.2.4:
+    resolution:
+      {
+        integrity: sha512-r4DIlprAGwJ7YM11VZp4R884m0Vmgr6EAKe3P+kO0PPj3Unqyvv59rczf6UiGcb9Z8QxZVcqKNwv/g0WNdWwsw==,
+      }
 
   which-boxed-primitive@1.1.1:
     resolution:
@@ -5666,6 +5707,8 @@ snapshots:
 
   concat-map@0.0.1: {}
 
+  core-js@3.42.0: {}
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -6180,6 +6223,8 @@ snapshots:
   fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
+
+  fflate@0.4.8: {}
 
   file-entry-cache@8.0.0:
     dependencies:
@@ -6825,6 +6870,15 @@ snapshots:
 
   postgres@3.4.7: {}
 
+  posthog-js@1.246.0:
+    dependencies:
+      core-js: 3.42.0
+      fflate: 0.4.8
+      preact: 10.26.6
+      web-vitals: 4.2.4
+
+  preact@10.26.6: {}
+
   prelude-ls@1.2.1: {}
 
   prettier@3.5.3: {}
@@ -7356,6 +7410,8 @@ snapshots:
     transitivePeerDependencies:
       - "@types/react"
       - "@types/react-dom"
+
+  web-vitals@4.2.4: {}
 
   which-boxed-primitive@1.1.1:
     dependencies:

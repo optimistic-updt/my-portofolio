@@ -2,7 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import React, { FC, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 
 const BUTTON_COPY = {
   rest: "send message",
