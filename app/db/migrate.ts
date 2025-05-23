@@ -1,4 +1,4 @@
-import { env } from "@/libs/env.mjs";
+import { env } from "@/app/env.mjs";
 
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";

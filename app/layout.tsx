@@ -3,7 +3,7 @@ import { Raleway, Rubik } from "next/font/google";
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
-import { PostHogProvider } from "./providers";
+import { PostHogProvider } from "./component/providers";
 
 const raleway = Raleway({
   subsets: ["latin"],

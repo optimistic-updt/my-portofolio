@@ -14,10 +14,12 @@ export const env = createEnv({
   },
   clientPrefix: "NEXT_PUBLIC_",
   client: {
-    // NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string().min(4).startsWith("phc_"),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().url(),
   },
-  // For Next.js >= 13.4.4, you only need to destructure client variables:
+  // TODO - Destructure client variables:
   experimental__runtimeEnv: {
-    // NEXT_PUBLIC_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
 });

@@ -1,6 +1,6 @@
 import { index, pgTable, text, varchar, vector } from "drizzle-orm/pg-core";
 import { resources } from "./resources";
-import { generateId } from "@/libs/utils/id";
+import { generateId } from "@/app/utils/id";
 
 export const embeddings = pgTable(
   "embeddings",
