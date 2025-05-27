@@ -1,4 +1,5 @@
 import { AboutSection } from "./feature/AboutSection/AboutSection";
+import { Chat } from "./feature/chat";
 import { ContactSection } from "./feature/ContactSection/ContactSection";
 import Footer from "./feature/Footer/Footer";
 import { HeroSection } from "./feature/HeroSection/HeroSection";
@@ -16,6 +17,7 @@ export default function Home() {
         <ContactSection />
         <Footer />
       </main>
+      <Chat />
     </>
   );
 }
