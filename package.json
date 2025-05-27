@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prepare": "husky",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx libs/db/migrate.ts",
+    "db:migrate": "tsx app/db/migrate.ts",
     "db:drop": "drizzle-kit drop",
     "db:pull": "drizzle-kit introspect",
     "db:push": "drizzle-kit push",

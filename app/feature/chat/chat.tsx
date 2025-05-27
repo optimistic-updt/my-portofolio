@@ -3,9 +3,17 @@
 import { FC } from "react";
 import { Drawer } from "vaul";
 import { useChat } from "@ai-sdk/react";
+import { UIMessage } from "ai";
+
+const getToolInvocation = (messageParts: UIMessage["parts"]) => {
+  let toolCall = messageParts.find((part) => part.type === "tool-invocation");
+  return toolCall?.toolInvocation;
+};
 
 export const Chat: FC = () => {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    maxSteps: 3, //TODO???
+  });
 
   return (
     // TODO bottom on mobile
@@ -39,15 +47,31 @@ export const Chat: FC = () => {
               Chat with me
             </Drawer.Description>
 
-            <div className="space-y-4 px-6">
-              {messages.map((m) => (
-                <div key={m.id} className="whitespace-pre-wrap">
-                  <div>
-                    <div className="font-bold">{m.role}</div>
-                    <p>{m.content}</p>
+            <div className="flex flex-col min-h-0 flex-grow overflow-auto space-y-4 px-6 pb-12">
+              {messages.map((message) => {
+                console.log("message", message);
+                return (
+                  <div key={message.id} className="whitespace-pre-wrap">
+                    <div>
+                      <div className="font-bold">{message.role}</div>
+                      {message.content.length > 0 ? (
+                        <p>{message.content}</p>
+                      ) : (
+                        <>
+                          <p className="italic font-light">
+                            {"calling tool: " +
+                              getToolInvocation(message?.parts)?.toolName}
+                          </p>
+                          <p className="italic font-light">
+                            {"result: " +
+                              getToolInvocation(message?.parts)?.state}
+                          </p>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <form onSubmit={handleSubmit} className="">
