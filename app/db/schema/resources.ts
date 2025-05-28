@@ -21,7 +21,7 @@ export const resources = pgTable("resources", {
 
 // Schema for resources - used to validate API requests
 export const createResourceSchema = createInsertSchema(resources)
-  .extend({}) // todo - what is this?
+  .extend({})
   .omit({
     id: true,
     createdAt: true,
@@ -29,4 +29,5 @@ export const createResourceSchema = createInsertSchema(resources)
   });
 
 // Type for resources - used to type API request params and within Components
+// @ts-expect-error - zod compat issue, need to check TODO
 export type NewResourceParams = z.infer<typeof createResourceSchema>;
