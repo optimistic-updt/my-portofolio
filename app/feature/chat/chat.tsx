@@ -17,7 +17,7 @@ export const Chat: FC = () => {
 
   return (
     // TODO bottom on mobile
-    <Drawer.Root direction="right" open>
+    <Drawer.Root direction="right">
       <Drawer.Trigger className="fixed bottom-4 right-4 bg-red rounded-full bg-primary size-12 p-2 flex items-center justify-center">
         <span className="sr-only">Open Chat</span>
         {/* TODO - icon */}
@@ -52,7 +52,7 @@ export const Chat: FC = () => {
                 console.log("message", message);
                 return (
                   <div key={message.id} className="whitespace-pre-wrap">
-                    <div>
+                    <div className="cursor-text">
                       <div className="font-bold">{message.role}</div>
                       {message.content.length > 0 ? (
                         <p>{message.content}</p>

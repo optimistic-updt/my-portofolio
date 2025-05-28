@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Raleway, Rubik } from "next/font/google";
 import "./globals.css";
 
@@ -38,8 +38,11 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   // manifest: "/site.webmanifest",
-  themeColor: "#ff69f0",
   viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ff69f0",
 };
 
 export default function RootLayout({

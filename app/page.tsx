@@ -5,8 +5,11 @@ import Footer from "./feature/Footer/Footer";
 import { HeroSection } from "./feature/HeroSection/HeroSection";
 import NavBar from "./feature/Navbar/Navbar";
 import { WorkSection } from "./feature/WorkSection/WorkSection";
+import { env } from "./env.mjs";
 
 export default function Home() {
+  let hasChatEnabled = env.NODE_ENV !== "production";
+
   return (
     <>
       <NavBar />
@@ -17,7 +20,8 @@ export default function Home() {
         <ContactSection />
         <Footer />
       </main>
-      <Chat />
+
+      {hasChatEnabled && <Chat />}
     </>
   );
 }
