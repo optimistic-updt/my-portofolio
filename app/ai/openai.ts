@@ -12,8 +12,14 @@ export const openaiClient = createOpenAI({
   apiKey: env.OPEN_AI_API_KEY,
 });
 
-export const chatModel = withTracing(openaiClient("gpt-4.1-mini"), phClient, {
-  // posthogDistinctId: "user_123", // optional
-  // posthogTraceId: "trace_123", // optional
-  // posthogProperties: { conversation_id: "abc123", paid: true }, // optional
-});
+export const chatModel = withTracing(
+  openaiClient("o4-mini"),
+  // openaiClient("gpt-4.1-mini"),
+  phClient,
+  {},
+);
+
+/**
+ * MAKE SURE YOU USE AN EMBEDDING MODEL WITH 1536 DIMENSIONS not more nor less
+ */
+export const embeddingModel = openaiClient.embedding("text-embedding-3-small");

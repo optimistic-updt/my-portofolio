@@ -1,34 +1,41 @@
 "use client";
 
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Drawer } from "vaul";
 import { useChat } from "@ai-sdk/react";
-import { UIMessage } from "ai";
+import { Message, UIMessage } from "ai";
 
 const getToolInvocation = (messageParts: UIMessage["parts"]) => {
   let toolCall = messageParts.find((part) => part.type === "tool-invocation");
   return toolCall?.toolInvocation;
 };
 
-export const Chat: FC = () => {
-  const listRef = useRef<HTMLDivElement>(null);
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    maxSteps: 4,
-    initialMessages: [
-      {
-        id: "system-init",
-        role: "system",
-        content: `Hey, good to see you here. 😊
+const INITIAL_MESSAGES: Message[] = [
+  {
+    id: "system-init",
+    role: "system",
+    content: `Hey, good to see you here. 😊
 
 You might have some specific questions to ask me, So feel free to ask anything you want to my friend here in chat bot. He will do his best to answer them.
 
 And if there is anything that he doesn't know, he will let me know so I can backfill it the next time. `,
-      },
-    ],
+  },
+];
+
+export const Chat: FC = () => {
+  const listRef = useRef<HTMLDivElement>(null);
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    maxSteps: 7,
+    initialMessages: INITIAL_MESSAGES,
     onResponse: () => {
       listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
     },
   });
+
+  // DELETE
+  useEffect(() => {
+    console.log("messages", messages);
+  }, [messages]);
 
   return (
     // TODO bottom on mobile
@@ -102,12 +109,11 @@ And if there is anything that he doesn't know, he will let me know so I can back
 
             <div
               ref={listRef}
-              className="flex flex-col min-h-0 flex-grow overflow-auto space-y-4 pb-12"
+              className="flex flex-col min-h-0 flex-grow overflow-y-auto overflow-x-hidden space-y-4 pb-12"
             >
               <div className="rounded-lg bg-gray-100 h-24 w-full"></div>
 
               {messages.map((message) => {
-                console.log("message", message);
                 return (
                   <div key={message.id} className="whitespace-pre-wrap">
                     <div className="cursor-text">
@@ -118,14 +124,28 @@ And if there is anything that he doesn't know, he will let me know so I can back
                         <p>{message.content}</p>
                       ) : (
                         <>
-                          <p className="italic font-light">
-                            {"calling tool: " +
-                              getToolInvocation(message?.parts)?.toolName}
-                          </p>
-                          <p className="italic font-light">
-                            {"result: " +
-                              getToolInvocation(message?.parts)?.state}
-                          </p>
+                          <div className="flex items-center justify-between">
+                            <p className="italic font-light">
+                              {"calling tool: " +
+                                getToolInvocation(message?.parts)?.toolName}
+                            </p>
+                            {/* loading spinner */}
+                            {getToolInvocation(message?.parts)?.state ===
+                            "call" ? (
+                              <span className="ml-auto">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 512 512"
+                                  className="h-4 w-4 animate-spin text-secondary"
+                                >
+                                  <path
+                                    fill="currentColor"
+                                    d="M256 116a52 52 0 1 1 0-104 52 52 0 1 1 0 104zm0 364a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM448 288a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM32 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm399.4-96.2A56 56 0 1 1 352.2 80.6a56 56 0 1 1 79.2 79.2zM97.6 414.4a32 32 0 1 1 45.3-45.3A32 32 0 1 1 97.6 414.4zm271.5 0a32 32 0 1 1 45.3-45.3 32 32 0 1 1 -45.3 45.3zM86.3 86.3a48 48 0 1 1 67.9 67.9A48 48 0 1 1 86.3 86.3z"
+                                  />
+                                </svg>
+                              </span>
+                            ) : null}
+                          </div>
                         </>
                       )}
                     </div>
@@ -140,6 +160,7 @@ And if there is anything that he doesn't know, he will let me know so I can back
                 value={input}
                 placeholder="What do you want to ask?"
                 onChange={handleInputChange}
+                autoFocus
                 // rows={2}
                 style={{
                   minHeight: "2.5rem",

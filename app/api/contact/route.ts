@@ -1,3 +1,4 @@
+import { getClientIP } from "@/app/utils/rate-limit";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
@@ -48,9 +49,7 @@ function checkRateLimit(ip: string): boolean {
 
 export async function POST(request: Request) {
   try {
-    // Get IP address from request headers
-    const forwardedFor = request.headers.get("x-forwarded-for");
-    const ip = forwardedFor ? forwardedFor.split(",")[0] : "127.0.0.1";
+    const ip = getClientIP(request);
 
     // Check rate limit
     if (!checkRateLimit(ip)) {

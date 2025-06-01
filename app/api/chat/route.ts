@@ -3,62 +3,121 @@ import { z } from "zod";
 import { createResource } from "@/app/actions/resources";
 import { chatModel } from "@/app/ai/openai";
 import { findRelevantContent } from "@/app/ai/embedding";
+import { NextResponse } from "next/server";
+import { checkMultipleRateLimits, getClientIP } from "@/app/utils/rate-limit";
+import { SYSTEM_PROMPTS } from "./prompts";
 
-// Prompt lines
+// Prompt lines to try
 // Only respond to questions using information from tool calls.
 // if no relevant information is found in the tool calls, respond, "Sorry, I don't know."
+// My Social Media accounts are:
+// LinkedIn: https://www.linkedin.com/in/kevgarciaf/
+// Twitter: https://twitter.com/optimistic_updt
 
 // TODO - have a secret code to know it's me
 
+// it created the embedding but it's like it got no feedback and doesnt know that it happened. Additionnaly, when getting information, it hangs and never resolves
+
+const addResourceTool = tool({
+  description: `add a resource to your knowledge base.
+    If the user provides a random piece of knowledge unprompted, use this tool without asking for confirmation.`,
+  parameters: z.object({
+    content: z
+      .string()
+      .describe("the content or resource to add to the knowledge base"),
+  }),
+  execute: async ({ content }) => createResource({ content }),
+});
+
+const getInformationTool = tool({
+  description: `get information from your knowledge base to answer questions.`,
+  parameters: z.object({
+    question: z.string().describe("the users question"),
+  }),
+  execute: async ({ question }) => {
+    try {
+      const result = await Promise.race([
+        findRelevantContent(question),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Query timed out")), 10000),
+        ),
+      ]);
+      return result;
+    } catch (error) {
+      console.error("Error in getInformation tool:", error);
+      return [
+        {
+          name: "Error retrieving information from knowledge base",
+          similarity: 0,
+        },
+      ];
+    }
+  },
+});
+
 export async function POST(req: Request) {
+  // Get client IP for rate limiting
+  const clientIP = getClientIP(req);
+
+  // Check rate limits (per minute, per hour, and per day)
+  const rateLimitCheck = await checkMultipleRateLimits(clientIP, [
+    "CHAT_PER_MINUTE",
+    "CHAT_PER_HOUR",
+    "CHAT_PER_DAY",
+  ]);
+
+  if (!rateLimitCheck.allowed) {
+    // Find the most restrictive limit that was exceeded
+    const exceededLimits = Object.entries(rateLimitCheck.results)
+      .filter(([, result]) => !result.allowed)
+      .map(([type, result]) => ({
+        type,
+        resetTime: result.resetTime,
+      }));
+
+    const nextReset = exceededLimits.reduce((earliest, current) =>
+      current.resetTime < earliest.resetTime ? current : earliest,
+    );
+
+    return NextResponse.json(
+      {
+        error: "Rate limit exceeded. Please try again later.",
+        resetTime: nextReset.resetTime.toISOString(),
+        type: nextReset.type,
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": Math.ceil(
+            (nextReset.resetTime.getTime() - Date.now()) / 1000,
+          ).toString(),
+        },
+      },
+    );
+  }
+
   const { messages } = await req.json();
 
   const result = streamText({
     messages,
     model: chatModel,
-    system: `You are a helpful assistant on Kevin Garcia-Fernandez's website.
-    You are there for people to ask questions about Kevin.
-    Check your knowledge base before answering any questions.
-    Prefer responding "Sorry, I don't know." than making things up.
-    Prefer speaking using Kevin's tone of voice guide below.
-
-    Overview:
-    Kevin Garcia-Fernandez is a software engineer at Tapestry.ai, with a background in organizing Ruby Melbourne events. His communication style is characterized by clarity, approachability, and a passion for collaborative innovation.
-
-    Tone Characteristics:
-    Optimistic and Encouraging: Kevin conveys a positive outlook, emphasizing the empowering aspects of software engineering. He believes in the potential of technology to shape a better future.
-    Collaborative and Inclusive: He values teamwork and the exchange of ideas, often highlighting the importance of working with creative thinkers to develop innovative solutions.
-    Educational and Reflective: Kevin takes the time to explain complex concepts in an accessible manner, often reflecting on his learning journey to provide insights to others.
-    Authentic and Personal: He shares personal experiences and challenges, making his communication relatable and genuine.
-
-    Communication Guidelines:
-    Use Clear and Simple Language: Avoid jargon unless necessary, and when used, provide explanations to ensure understanding.
-    Be Supportive and Motivational: Encourage others in their learning and development, sharing experiences that highlight growth and resilience.
-    Share Knowledge Generously: Provide insights and explanations that can aid others in their professional journeys.
-    Maintain a Friendly and Approachable Tone: Write as if conversing with a peer, fostering an environment of mutual respect and openness.
-    `,
+    system: SYSTEM_PROMPTS.CHAT.v1,
     tools: {
-      addResource: tool({
-        description: `add a resource to your knowledge base.
-          If the user provides a random piece of knowledge unprompted, use this tool without asking for confirmation.`,
-        parameters: z.object({
-          content: z
-            .string()
-            .describe("the content or resource to add to the knowledge base"),
-        }),
-        execute: async ({ content }) => createResource({ content }),
-      }),
-      getInformation: tool({
-        description: `get information from your knowledge base to answer questions.`,
-        parameters: z.object({
-          question: z.string().describe("the users question"),
-        }),
-        execute: async ({ question }) => findRelevantContent(question),
-      }),
-      // web_search_preview: openaiClient.tools.webSearchPreview(),
-      // TODO - search the web or lookup on my social
+      addResource: addResourceTool,
+      getInformation: getInformationTool,
+      // TODO apparantly can't web search (either way it's on 4o-mini)
+      // web_search_preview: openaiClient.tools.webSearchPreview({
+      //   userLocation: {
+      //     type: "approximate",
+      //     country: "Australia",
+      //     city: "Melbourne",
+      //     region: "Victoria",
+      //   },
+      // }),
     },
   });
 
   return result.toDataStreamResponse();
 }
+
+// TODO - search the web or lookup on my social

@@ -2,8 +2,8 @@ import type { Config } from "drizzle-kit";
 
 import { env } from "./app/env.mjs";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
+if (!process.env.DATABASE_URL_SERVER) {
+  throw new Error("DATABASE_URL_SERVER environment variable is not set");
 }
 
 export default {
@@ -11,6 +11,6 @@ export default {
   out: "./app/db/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    url: env.DATABASE_URL_SERVER,
   },
 } satisfies Config;

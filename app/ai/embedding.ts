@@ -1,12 +1,8 @@
 import { embed, embedMany } from "ai";
-import { openaiClient } from "./openai";
 import { sql, cosineDistance, gt, desc } from "drizzle-orm";
 import { db } from "../db";
 import { embeddings } from "../db/schema/embedding";
-
-// try out different one
-// TODO track price
-const embeddingModel = openaiClient.embedding("text-embedding-ada-002");
+import { embeddingModel } from "./openai";
 
 /**
  * todo - experiment with different chunking strategies
@@ -24,7 +20,7 @@ export const generateEmbeddings = async (
   const chunks = generateChunks(value);
 
   const { embeddings } = await embedMany({
-    model: embeddingModel, //TODO track price
+    model: embeddingModel,
     values: chunks,
   });
 
@@ -36,7 +32,7 @@ export const generateEmbeddings = async (
   }));
 };
 
-// ? TODO - why do we chunk here???
+// ? TODO - why don't we chunk here???
 export const generateEmbedding = async (value: string): Promise<number[]> => {
   const input = value.replaceAll("\\n", " ");
   const { embedding } = await embed({
@@ -47,21 +43,38 @@ export const generateEmbedding = async (value: string): Promise<number[]> => {
 };
 
 export const findRelevantContent = async (userQuery: string) => {
-  const userQueryEmbedded = await generateEmbedding(userQuery);
+  console.warn("userQuery", userQuery);
+  try {
+    const userQueryEmbedded = await generateEmbedding(userQuery);
 
-  // that's a LLM OP move
-  const similarity = sql<number>`1 - (${cosineDistance(
-    embeddings.embedding,
-    userQueryEmbedded,
-  )})`;
+    const similarity = sql<number>`1 - (${cosineDistance(
+      embeddings.embedding,
+      userQueryEmbedded,
+    )})`;
 
-  const similarGuides = await db
-    .select({ name: embeddings.content, similarity })
-    .from(embeddings)
-    .where(gt(similarity, 0.5))
-    .orderBy((t) => desc(t.similarity))
-    .limit(4); // ? i think you can increase the limit by more context
-  //
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Database query timed out")), 5000),
+    );
 
-  return similarGuides;
+    const queryPromise = db
+      .select({ name: embeddings.content, similarity })
+      .from(embeddings)
+      .where(gt(similarity, 0.5))
+      .orderBy((t) => desc(t.similarity))
+      .limit(4);
+
+    const similarGuides = (await Promise.race([
+      queryPromise,
+      timeoutPromise,
+    ])) as any;
+
+    console.warn("similar guides", similarGuides);
+    return similarGuides.length > 0
+      ? similarGuides
+      : [{ name: "No relevant information found", similarity: 0 }];
+  } catch (error) {
+    console.error("Error retrieving information:", error);
+    return [{ name: "Error retrieving information", similarity: 0 }];
+  }
 };
