@@ -4,6 +4,7 @@
 
 - do chat UI
 - posthog filter everytime it says "Sorry, I don't know."
+- posthog trace query speed
 - connect to a MCP (notion or ??? something else for social media)
 - profanity filter ? test
 

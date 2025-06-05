@@ -13,8 +13,6 @@ export const createResource = async (input: NewResourceParams) => {
   try {
     const { content } = createResourceSchema.parse(input);
 
-    // TODO need to add errors
-
     const [resource] = await db
       .insert(resourcesTable)
       .values({ content })

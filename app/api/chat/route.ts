@@ -16,8 +16,6 @@ import { SYSTEM_PROMPTS } from "./prompts";
 
 // TODO - have a secret code to know it's me
 
-// it created the embedding but it's like it got no feedback and doesnt know that it happened. Additionnaly, when getting information, it hangs and never resolves
-
 const addResourceTool = tool({
   description: `add a resource to your knowledge base.
     If the user provides a random piece of knowledge unprompted, use this tool without asking for confirmation.`,
@@ -101,7 +99,7 @@ export async function POST(req: Request) {
   const result = streamText({
     messages,
     model: chatModel,
-    system: SYSTEM_PROMPTS.CHAT.v1,
+    system: SYSTEM_PROMPTS.CHAT.v2,
     tools: {
       addResource: addResourceTool,
       getInformation: getInformationTool,

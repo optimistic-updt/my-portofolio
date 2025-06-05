@@ -1,9 +1,11 @@
 "use client";
 
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Drawer } from "vaul";
 import { useChat } from "@ai-sdk/react";
 import { Message, UIMessage } from "ai";
+
+import styles from "./chat.module.css";
 
 const getToolInvocation = (messageParts: UIMessage["parts"]) => {
   let toolCall = messageParts.find((part) => part.type === "tool-invocation");
@@ -24,7 +26,14 @@ And if there is anything that he doesn't know, he will let me know so I can back
 
 export const Chat: FC = () => {
   const listRef = useRef<HTMLDivElement>(null);
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    status,
+    setMessages,
+  } = useChat({
     maxSteps: 7,
     initialMessages: INITIAL_MESSAGES,
     onResponse: () => {
@@ -32,27 +41,28 @@ export const Chat: FC = () => {
     },
   });
 
-  // DELETE
-  useEffect(() => {
-    console.log("messages", messages);
-  }, [messages]);
+  const handleClearChat = () => {
+    setMessages(INITIAL_MESSAGES);
+  };
 
   return (
     // TODO bottom on mobile
     <Drawer.Root direction="right">
       <Drawer.Trigger className="fixed bottom-4 right-4 rounded-full bg-primary size-12 p-3.5 text-white flex items-center justify-center">
         <span className="sr-only">Open Chat</span>
+        {/* outline full */}
+        {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path
+    fill="currentColor"
+    d="M0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L185.6 508.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-80-96 0c-35.3 0-64-28.7-64-64L0 64zM192 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128 0a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM150.5 238.1c-9.9 8.8-10.7 24-1.9 33.9c26.3 29.4 64.7 48 107.3 48s81-18.6 107.3-48c8.8-9.9 8-25-1.9-33.9s-25-8-33.9 1.9c-17.6 19.7-43.1 32-71.6 32s-53.9-12.3-71.6-32c-8.8-9.9-24-10.7-33.9-1.9z"
+  />
+</svg> */}
+        {/* outline */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
           // className="h-full w-auto"
         >
-          {/* normal message */}
-          {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l96 0 0 80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416 448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0z"/></svg> */}
-
-          {/* outline full */}
-          {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L185.6 508.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-80-96 0c-35.3 0-64-28.7-64-64L0 64zM192 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128 0a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM150.5 238.1c-9.9 8.8-10.7 24-1.9 33.9c26.3 29.4 64.7 48 107.3 48s81-18.6 107.3-48c8.8-9.9 8-25-1.9-33.9s-25-8-33.9 1.9c-17.6 19.7-43.1 32-71.6 32s-53.9-12.3-71.6-32c-8.8-9.9-24-10.7-33.9-1.9z"/></svg> */}
-          {/* outline */}
           <path
             fill="currentColor"
             d="M208 416c0-26.5-21.5-48-48-48l-96 0c-8.8 0-16-7.2-16-16L48 64c0-8.8 7.2-16 16-16l384 0c8.8 0 16 7.2 16 16l0 288c0 8.8-7.2 16-16 16l-138.7 0c-10.4 0-20.5 3.4-28.8 9.6L208 432l0-16zm-.2 76.2l.2-.2 101.3-76L448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l48 0 48 0 0 48 0 4 0 .3 0 6.4 0 21.3c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L202.7 496l5.1-3.8zM192 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128 0a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM150.5 238.1c-9.9 8.8-10.7 24-1.9 33.9c26.3 29.4 64.7 48 107.3 48s81-18.6 107.3-48c8.8-9.9 8-25-1.9-33.9s-25-8-33.9 1.9c-17.6 19.7-43.1 32-71.6 32s-53.9-12.3-71.6-32c-8.8-9.9-24-10.7-33.9-1.9z"
@@ -70,16 +80,25 @@ export const Chat: FC = () => {
           // }
         >
           <div className="bg-zinc-50 h-full w-full grow flex flex-col rounded-md p-3">
-            <header className="flex items-center justify-between">
+            <header className="flex items-center justify-between mb-3">
               <Drawer.Title className="text-lg">Find Out More</Drawer.Title>
 
               <div className="flex items-center gap-2">
-                <button className="p-2 rounded-md size-8 hover:bg-zinc-200 focus:bg-zinc-200 active:bg-zinc-300 focus:outline-none flex items-center justify-center duration-100 transition-colors ease-in-out">
+                <button
+                  className="p-2 rounded-md size-8 hover:bg-zinc-200 focus:bg-zinc-200 active:bg-zinc-300 focus:outline-none flex items-center justify-center duration-100 transition-colors ease-in-out group"
+                  onClick={handleClearChat}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleClearChat();
+                    }
+                  }}
+                >
                   <span className="sr-only">Clear Chat</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    className="h-full w-auto"
+                    className="h-full w-auto group-hover:-rotate-180 duration-300 transition-transform"
                   >
                     <path
                       fill="currentColor"
@@ -111,7 +130,8 @@ export const Chat: FC = () => {
               ref={listRef}
               className="flex flex-col min-h-0 flex-grow overflow-y-auto overflow-x-hidden space-y-4 pb-12"
             >
-              <div className="rounded-lg bg-gray-100 h-24 w-full"></div>
+              {/* some card */}
+              {/* <div className="rounded-lg bg-gray-100 h-24 w-full"></div> */}
 
               {messages.map((message) => {
                 return (
@@ -152,18 +172,43 @@ export const Chat: FC = () => {
                   </div>
                 );
               })}
+
+              {/* this is the loading state */}
+              {status === "submitted" ? (
+                <div
+                  className={`flex items-center mx-auto justify-center opacity-90 size-5 transform`}
+                  style={{
+                    animation: `${styles.fly} 1.7s linear infinite`,
+                  }}
+                >
+                  <span className="sr-only">loading...</span>
+                  {/* plane from top - outline */}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M133.9 232L65.8 95.9 383.4 232l-249.5 0zm0 48l249.5 0L65.8 416.1l68-136.1zM44.6 34.6C32.3 29.3 17.9 32.3 8.7 42S-2.6 66.3 3.4 78.3L92.2 256 3.4 433.7c-6 12-3.9 26.5 5.3 36.3s23.5 12.7 35.9 7.5l448-192c11.8-5 19.4-16.6 19.4-29.4s-7.6-24.4-19.4-29.4l-448-192z" />
+                  </svg>
+                </div>
+              ) : null}
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <input
-                className="p-2 border border-gray-300 rounded-md w-full inline-block resize-none focus:border-primary focus:outline-none"
+            <form
+              onSubmit={handleSubmit}
+              className="p-2 border border-gray-300 rounded-md w-full resize-none focus-within:border-primary flex flex-col"
+            >
+              <textarea
+                className="resize-none focus:outline-none bg-zinc-50"
                 value={input}
                 placeholder="What do you want to ask?"
                 onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
                 autoFocus
-                // rows={2}
+                rows={1}
                 style={{
-                  minHeight: "2.5rem",
+                  minHeight: "1.5rem",
                   maxHeight: "7.5rem",
                   overflowY: "auto",
                 }}
@@ -174,6 +219,28 @@ export const Chat: FC = () => {
                     Math.min(target.scrollHeight, 120) + "px";
                 }}
               />
+
+              <button
+                type="submit"
+                className="ml-auto items-center justify-center bg-secondary hover:bg-secondary/80 rounded-full p-3 inline-flex size-10 text-white"
+              >
+                <span className="sr-only">Send</span>
+                {/* TODO need to come from the bottom on arrival */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  className={`duration-200 ease-in-circ ${
+                    status === "submitted"
+                      ? "translate-x-6 -translate-y-6 opacity-80"
+                      : "translate-x-0 -translate-y-0 opacity-100"
+                  }`}
+                >
+                  <path
+                    fill="currentColor"
+                    d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376l0 103.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z"
+                  />
+                </svg>
+              </button>
             </form>
           </div>
         </Drawer.Content>
