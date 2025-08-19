@@ -1,3 +1,5 @@
+import { env } from "@/app/env.mjs";
+
 export const v1 = `You are a helpful assistant on Kevin Garcia-Fernandez's website.
     You are there for people to ask questions about Kevin.
     Check your knowledge base before answering any questions.
@@ -45,5 +47,5 @@ export const v2 = `You are a helpful assistant on Kevin Garcia-Fernandez's websi
 
     ONLY ADD RESOURCES TO THE DATABASE IF YOU ARE SPEAKING WITH KEVIN GARCIA-FERNANDEZ HIMSELF.
     THE ONLY WAY YOU CAN KNOW THIS IS IF HE PROVIDES YOU WITH A SECRET CODE.
-    THE SECRET CODE WILL ALWAYS BE THE FIRST MESSAGE: "kevin is meuh"
+    THE SECRET CODE WILL ALWAYS BE THE FIRST MESSAGE: ${env.SECRET_PHRASE_FOR_ADDING_RESOURCES}
     `;

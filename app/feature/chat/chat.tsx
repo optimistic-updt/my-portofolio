@@ -12,15 +12,25 @@ const getToolInvocation = (messageParts: UIMessage["parts"]) => {
   return toolCall?.toolInvocation;
 };
 
+const mapRoleToLabel = (role: Omit<Message["role"], "data">) => {
+  const ROLE_MAP = {
+    system: "Kev",
+    user: "You",
+    assistant: "Assistant",
+  };
+
+  return ROLE_MAP[role] || role;
+};
+
 const INITIAL_MESSAGES: Message[] = [
   {
     id: "system-init",
     role: "system",
     content: `Hey, good to see you here. 😊
 
-You might have some specific questions to ask me, So feel free to ask anything you want to my friend here in chat bot. He will do his best to answer them.
+You might have some specific questions to ask me, So feel free to ask anything you want to this agent here. He will do his best to answer them.
 
-And if there is anything that he doesn't know, he will let me know so I can backfill it the next time. `,
+And if there is anything that he doesn't know, he will let me know so I can backfill it the next time.`,
   },
 ];
 
@@ -73,14 +83,14 @@ export const Chat: FC = () => {
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content
-          className="right-0 inset-y-0 fixed z-10 outline-none w-[350px] md:w-96 lg:w-[450px] flex"
+          className="right-0 inset-y-0 fixed z-10 outline-none w-[350px] md:w-96 lg:w-[450px] flex mr-4 py-16"
           // // The gap between the edge of the screen and the drawer is 8px in this case.
           // style={
           //   { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
           // }
         >
-          <div className="bg-zinc-50 h-full w-full grow flex flex-col rounded-md p-3">
-            <header className="flex items-center justify-between mb-3">
+          <div className="bg-zinc-50 h-full w-full grow flex flex-col rounded-md">
+            <header className="flex items-center justify-between mb-3 px-3 pt-3">
               <Drawer.Title className="text-lg">Find Out More</Drawer.Title>
 
               <div className="flex items-center gap-2">
@@ -128,17 +138,24 @@ export const Chat: FC = () => {
 
             <div
               ref={listRef}
-              className="flex flex-col min-h-0 flex-grow overflow-y-auto overflow-x-hidden space-y-4 pb-12"
+              className="flex flex-col min-h-0 flex-grow overflow-y-auto overflow-x-hidden space-y-4 pb-12 px-3"
             >
               {/* some card */}
               {/* <div className="rounded-lg bg-gray-100 h-24 w-full"></div> */}
 
               {messages.map((message) => {
                 return (
-                  <div key={message.id} className="whitespace-pre-wrap">
+                  <div
+                    key={message.id}
+                    className={`whitespace-pre-wrap max-w-[80%] ${
+                      message.role === "user"
+                        ? "text-right bg-primary ml-auto p-2 rounded-md"
+                        : "text-left"
+                    }`}
+                  >
                     <div className="cursor-text">
                       <div className="font-bold">
-                        {message.role === "system" ? "Kev" : message.role}
+                        {mapRoleToLabel(message.role)}
                       </div>
                       {message.content.length > 0 ? (
                         <p>{message.content}</p>
@@ -192,7 +209,7 @@ export const Chat: FC = () => {
 
             <form
               onSubmit={handleSubmit}
-              className="p-2 border border-gray-300 rounded-md w-full resize-none focus-within:border-primary flex flex-col"
+              className="border border-gray-300 rounded-md w-full resize-none focus-within:border-primary flex flex-col"
             >
               <textarea
                 className="resize-none focus:outline-none bg-zinc-50"

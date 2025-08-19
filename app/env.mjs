@@ -12,6 +12,7 @@ export const env = createEnv({
     DATABASE_URL_SERVER: z.string().url(),
     DATABASE_URL_SERVERLESS: z.string().url(),
     OPEN_AI_API_KEY: z.string().min(1),
+    SECRET_PHRASE_FOR_ADDING_RESOURCES: z.string().min(3),
   },
   clientPrefix: "NEXT_PUBLIC_",
   client: {
